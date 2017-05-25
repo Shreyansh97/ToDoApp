@@ -1,13 +1,10 @@
 package com.example.todoapp;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by shreyansh on 20/5/17.
  */
 
-public class Task implements Parcelable {
+public class Task {
     private String Title,Description,Date;
     boolean completed;
     int id;
@@ -20,13 +17,14 @@ public class Task implements Parcelable {
         id=0;
     }
 
-    Task(String t,String d,String da){
+    /*Task(String t,String d,String da){
         Title = t;
         Description = d;
         Date = da;
         completed = false;
         id=0;
-    }
+    }*/
+
     String getTitle(){
         return Title;
     }
@@ -59,15 +57,5 @@ public class Task implements Parcelable {
     }
     void setId(int id){
         this.id = id;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
     }
 }

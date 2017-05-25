@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Show extends Activity {
+public class Show extends Activity implements PopupMenu.OnMenuItemClickListener {
     String method;
     RecyclerView mRecycler;
     TaskAdapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     private List<Task> tasks;
     DatabaseHandler db;
+    int onClickPosition=-1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +55,18 @@ public class Show extends Activity {
         mRecycler.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecycler, new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, final int position) {
-                PopupMenu menu = new PopupMenu(Show.this,mRecycler);
-                MenuItem itemView = (MenuItem) findViewById(R.id.three);
-                if(method.equals("Completed"))
-                    itemView.setTitle("Mark as imcomplete");
-                menu.getMenuInflater().inflate(R.menu.menu_popup,menu.getMenu());
+                onClickPosition = position;
+                PopupMenu menu = new PopupMenu(Show.this,view);
+                //PopupMenu menu1 = (PopupMenu) ;
+                //MenuItem itemView = (MenuItem) view.findViewById(R.id.three);
+                //if(method.equals("Completed"))
+                  //  itemView.setTitle("Mark as imcomplete");
+                //menu.getMenuInflater().inflate(R.menu.menu_popup,menu.getMenu());
+                menu.setOnMenuItemClickListener(Show.this);
+                menu.inflate(R.menu.menu_popup);
+                menu.show();
 
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
+                /*menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
                     public boolean onMenuItemClick(MenuItem item){
                         int id=item.getItemId();
                         switch (id){
@@ -79,7 +85,7 @@ public class Show extends Activity {
                         }
                         return true;
                     }
-                });
+                });*/
 
             }
 
@@ -123,5 +129,32 @@ public class Show extends Activity {
         finish();
         startActivity(getIntent());
     }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        int id=item.getItemId();
+        switch (id){
+            case R.id.one:
+                Intent intent = new Intent(Show.this,Add.class);
+                intent.putExtra("Method","Edit");
+                intent.putExtra("ID",tasks.get(onClickPosition).getId());
+                startActivity(intent);
+                return true;
+            case R.id.two:
+                deleteRecord(onClickPosition);
+                return true;
+            case R.id.three:
+                toggleComplete(onClickPosition);
+                return true;
+        }
+        return false;
+    }
     //public void onclick(View view,int position){}
+
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu){
+//        if(method.equals("Completed"))
+//            menu.findItem(R.id.three).setTitle("Mark as incomplete");
+//        return true;
+//    }
 }

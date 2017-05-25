@@ -43,7 +43,7 @@ public class Add extends AppCompatActivity {
 
 
         if(method.equals("Edit")){
-            task = extra.getParcelable("Task");
+            task = db.getTaskFromId(extra.getInt("ID"));
             title.setText(task.getTitle());
             desc.setText(task.getDescription());
             String date = task.getDate();

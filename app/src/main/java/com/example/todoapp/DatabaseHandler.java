@@ -59,6 +59,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public Task getTaskFromId(int id){
+        Task task = new Task();
+        String query = "SELECT * FROM "+TABLE_NAME+" WHERE "+KEY_ID+"="+id;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+
+        if(cursor.moveToFirst()){
+            do{
+                task.setId(Integer.parseInt(cursor.getString(0)));
+                task.setTitle(cursor.getString(1));
+                task.setDescription(cursor.getString(2));
+                task.setDate(cursor.getString(3));
+                task.setCompleted(Integer.parseInt(cursor.getString(4)) == 1);
+            }while (cursor.moveToNext());
+        }
+        return task;
+    }
+
     public List<Task> getTasks(int completed){
         List<Task> tasks = new ArrayList<Task>();
         String query = "SELECT * FROM "+TABLE_NAME+" WHERE "+KEY_COMPLETED+"="+completed;

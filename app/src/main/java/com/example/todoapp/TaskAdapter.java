@@ -41,6 +41,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
         holder.Title.setText(tasks.get(position).getTitle());
         holder.Description.setText(tasks.get(position).getDescription());
         holder.Date.setText(tasks.get(position).getDate());
+        //holder.itemView.setOnTouchListener(new RecyclerTouchListener(Show.class,));
     }
 
     @Override
