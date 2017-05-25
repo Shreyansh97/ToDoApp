@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -37,6 +38,12 @@ public class Add extends AppCompatActivity {
             public void onClick(View v){
                 Title = title.getText().toString();
                 Description = desc.getText().toString();
+                Date = date.getText().toString();
+                Time = time.getText().toString();
+                if(Title.equals("") || Description.equals("") || Date.equals("") || Time.equals("")){
+                    Toast.makeText(Add.this,"Please fill in all the fields",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 submit();
             }
         });
@@ -98,13 +105,11 @@ public class Add extends AppCompatActivity {
         String date=new String();
         date=cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1)+"/"+cal.get(Calendar.YEAR);
         this.date.setText(date);
-        Date=date;
     }
     void updateTime(Calendar cal){
         String time=new String();
         time=cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
         this.time.setText(time);
-        Time=time;
     }
     private void submit(){
         task.setTitle(Title);
